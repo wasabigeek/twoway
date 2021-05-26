@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   devise :omniauthable, omniauth_providers: [:google_oauth2]
 
+  has_many :connections, dependent: :destroy
+
   #
   # Used in the OmniauthCallbacksController to find or create a successfully authenticated User.
   #
@@ -12,7 +14,7 @@ class User < ApplicationRecord
   #
   # @return [User]
   #
-  def self.from_omniauth(access_token)
+  def self.from_omniauth(access_token, scope: nil)
     data = access_token.info
     user = User.where(email: data['email']).first
 
@@ -21,6 +23,12 @@ class User < ApplicationRecord
       user = User.create(
         email: data['email'],
         password: Devise.friendly_token[0,20]
+      )
+      user.connections.create!(
+        access_token: access_token.credentials['token'],
+        refresh_token: access_token.credentials['refresh_token'],
+        provider: access_token.provider,
+        scope: scope
       )
     end
 

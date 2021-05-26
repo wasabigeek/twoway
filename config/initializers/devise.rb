@@ -275,7 +275,7 @@ Devise.setup do |config|
   config.omniauth :google_oauth2,
                   Rails.application.credentials.google_client_id,
                   Rails.application.credentials.google_client_secret,
-                  { scope: 'email,profile,calendar' }
+                  { scope: 'email,calendar', access_type: 'offline' }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
