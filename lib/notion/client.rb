@@ -1,3 +1,5 @@
+require_relative 'oauth_client'
+
 module Notion
   class Client
     def initialize(connection:)

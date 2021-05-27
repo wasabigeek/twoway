@@ -1,2 +1,5 @@
-<h1>NotionSyncSources#new</h1>
-<p>Find me in app/views/notion_sync_sources/new.html.erb</p>
+<h1>Choose a Notion Database for this Sync</h1>
+<% @databases.each do |database| %>
+  <%= database.id %>
+  <%= database.title %>
+<% end %>
