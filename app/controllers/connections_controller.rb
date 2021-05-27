@@ -1,4 +1,4 @@
-require 'notion/client'
+require 'notion/oauth_client'
 
 class ConnectionsController < ApplicationController
   before_action :set_connection, only: %i[ show edit update destroy ]
@@ -70,7 +70,9 @@ class ConnectionsController < ApplicationController
   end
 
   def notion
-    redirect_to Notion::Client.new(redirect_url: oauth_callbacks_notion_url).authorize_url
+    redirect_to Notion::OAuthClient
+      .new(redirect_url: oauth_callbacks_notion_url)
+      .authorize_url
   end
 
   private
