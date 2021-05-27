@@ -8,5 +8,7 @@ class OAuthCallbacksController < ApplicationController
       provider: 'notion',
       access_token: token.token
     )
+
+    # TODO: redirect_to
   end
 end

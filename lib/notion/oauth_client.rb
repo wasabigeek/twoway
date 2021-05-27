@@ -2,7 +2,7 @@ require 'oauth2'
 
 module Notion
   class OAuthClient
-    def initialize(redirect_url:)
+    def initialize(redirect_url: nil)
       @redirect_url = redirect_url
     end
 
