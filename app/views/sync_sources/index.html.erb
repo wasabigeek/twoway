@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sync Sources</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sync</th>
+      <th>Calendar source</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sync_sources.each do |sync_source| %>
+      <tr>
+        <td><%= sync_source.sync_id %></td>
+        <td><%= sync_source.calendar_source_id %></td>
+        <td><%= link_to 'Show', sync_source %></td>
+        <td><%= link_to 'Edit', edit_sync_source_path(sync_source) %></td>
+        <td><%= link_to 'Destroy', sync_source, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sync Source', new_sync_source_path %>

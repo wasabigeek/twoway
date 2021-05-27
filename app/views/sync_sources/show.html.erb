@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sync:</strong>
+  <%= @sync_source.sync_id %>
+</p>
+
+<p>
+  <strong>Calendar source:</strong>
+  <%= @sync_source.calendar_source_id %>
+</p>
+
+<%= link_to 'Edit', edit_sync_source_path(@sync_source) %> |
+<%= link_to 'Back', sync_sources_path %>

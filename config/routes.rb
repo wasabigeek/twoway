@@ -8,5 +8,9 @@ Rails.application.routes.draw do
       get 'notion', to: 'connections#notion'
     end
   end
+  resources :syncs do
+    resources :notion_sync_sources, only: [:new, :create, :destroy]
+  end
+
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 end
