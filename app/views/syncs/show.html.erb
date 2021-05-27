@@ -1,7 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <%= link_to 'Add Notion Calendar', new_sync_notion_sync_source_path(sync_id: @sync.id) %>
+  <% if @sync.notion_source %>
+    <%= @sync.notion_source.name %>
+  <% else %>
+    <%= link_to 'Add Notion Calendar', new_sync_notion_sync_source_path(sync_id: @sync.id) %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_sync_path(@sync) %> |

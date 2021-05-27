@@ -1,5 +1,12 @@
 <h1>Choose a Notion Database for this Sync</h1>
 <% @databases.each do |database| %>
-  <%= database.id %>
-  <%= database.title %>
+  <%= form_with(url: sync_notion_sync_sources_path) do |form| %>
+    <%= hidden_field_tag(:database_external_id, database.id) %>
+    <%= hidden_field_tag(:database_name, database.title) %>
+
+    <div class="actions">
+      <%= form.submit(database.title) %>
+    </div>
+  <% end %>
+
 <% end %>

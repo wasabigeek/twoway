@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_135516) do
+ActiveRecord::Schema.define(version: 2021_05_27_143621) do
 
   create_table "calendar_sources", force: :cascade do |t|
     t.string "external_id", null: false
     t.integer "connection_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
     t.index ["connection_id"], name: "index_calendar_sources_on_connection_id"
     t.index ["external_id"], name: "index_calendar_sources_on_external_id"
   end

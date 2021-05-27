@@ -3,8 +3,11 @@ require 'notion/client'
 class Connection < ApplicationRecord
   PROVIDER_NOTION = 'notion'
 
+  scope :notion, -> { where(provider: PROVIDER_NOTION) }
+
+  # Should be used in tandem with a user scope e.g. user.connections.for_notion
   def self.for_notion
-    where(provider: PROVIDER_NOTION).first
+    notion.first
   end
 
   def notion?
