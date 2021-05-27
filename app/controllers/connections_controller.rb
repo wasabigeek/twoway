@@ -1,3 +1,5 @@
+require 'notion/client'
+
 class ConnectionsController < ApplicationController
   before_action :set_connection, only: %i[ show edit update destroy ]
 
@@ -65,6 +67,10 @@ class ConnectionsController < ApplicationController
       format.html { redirect_to connections_url, notice: "Connection was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def notion
+    redirect_to Notion::Client.new(redirect_url: oauth_callbacks_notion_url).authorize_url
   end
 
   private
