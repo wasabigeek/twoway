@@ -18,6 +18,20 @@ module Notion
       end
     end
 
+    def list_pages(database_id)
+      # TODO: pagination & filters
+      response = oauth_token.post(
+        "https://api.notion.com/v1/databases/#{database_id}/query",
+        params: {'page_size' => '100'}
+      )
+      response.parsed['results'].map do |obj|
+        OpenStruct.new(
+          id: obj['id'],
+          title: obj.dig('properties', 'Name', 'title').first['plain_text']
+        )
+      end
+    end
+
     private
 
     def oauth_token
