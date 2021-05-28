@@ -1,0 +1,12 @@
+<h1>Choose a Google Calendar for this Sync</h1>
+<% @calendars.each do |calendar| %>
+  <%= form_with(url: sync_gcal_sync_sources_path) do |form| %>
+    <%= hidden_field_tag(:source_external_id, calendar.id) %>
+    <%= hidden_field_tag(:source_name, calendar.summary) %>
+
+    <div class="actions">
+      <%= form.submit(calendar.summary) %>
+    </div>
+  <% end %>
+
+<% end %>

@@ -24,13 +24,14 @@ class User < ApplicationRecord
         email: data['email'],
         password: Devise.friendly_token[0,20]
       )
-      user.connections.create!(
-        access_token: access_token.credentials['token'],
-        refresh_token: access_token.credentials['refresh_token'],
-        provider: access_token.provider,
-        scope: scope
-      )
     end
+
+    connection = user.connections.find_or_create_by!(provider: access_token.provider)
+    connection.update!(
+      access_token: access_token.credentials['token'],
+      refresh_token: access_token.credentials['refresh_token'],
+      scope: scope
+    )
 
     user
   end

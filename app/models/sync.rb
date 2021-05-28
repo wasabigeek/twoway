@@ -7,4 +7,8 @@ class Sync < ApplicationRecord
   def notion_source
     calendar_sources.where(connection: user.connections.notion).first
   end
+
+  def gcal_source
+    calendar_sources.where(connection: user.connections.google).first
+  end
 end

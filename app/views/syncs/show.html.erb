@@ -7,6 +7,13 @@
     <%= link_to 'Add Notion Calendar', new_sync_notion_sync_source_path(sync_id: @sync.id) %>
   <% end %>
 </p>
+<p>
+  <% if @sync.gcal_source %>
+    <%= @sync.gcal_source.name %>
+  <% else %>
+    <%= link_to 'Add Google Calendar', new_sync_gcal_sync_source_path(sync_id: @sync.id) %>
+  <% end %>
+</p>
 
 <%= link_to 'Edit', edit_sync_path(@sync) %> |
 <%= link_to 'Back', syncs_path %>
