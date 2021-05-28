@@ -27,7 +27,10 @@ module Notion
       response.parsed['results'].map do |obj|
         OpenStruct.new(
           id: obj['id'],
-          title: obj.dig('properties', 'Name', 'title').first['plain_text']
+          title: obj.dig('properties', 'Name', 'title').first['plain_text'],
+          # TODO: make this property configurable
+          starts_at: obj.dig('properties', 'Date', 'date', 'start'),
+          ends_at: obj.dig('properties', 'Date', 'date', 'end')
         )
       end
     end
