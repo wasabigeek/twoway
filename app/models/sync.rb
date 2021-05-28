@@ -1,6 +1,6 @@
 class Sync < ApplicationRecord
   belongs_to :user
-  has_many :sync_sources
+  has_many :sync_sources, dependent: :destroy
   # TODO: validate CalendarSources
   has_many :calendar_sources, through: :sync_sources
 
