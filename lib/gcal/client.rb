@@ -1,3 +1,5 @@
+require 'gcal/database_token_store'
+
 module Gcal
   class Client
     def initialize(connection:)
@@ -16,14 +18,17 @@ module Gcal
 
     def calendar_service
       calendar_service = Google::Apis::CalendarV3::CalendarService.new
-      calendar_service.authorization = Google::Auth::UserRefreshCredentials.new(
-        client_id:     Rails.application.credentials.google_client_id,
-        client_secret: Rails.application.credentials.google_client_secret,
-        scope:         @connection.scope,
-        access_token:  @connection.access_token,
-        refresh_token: @connection.refresh_token,
-        # expires_at:    data.fetch("expiration_time_millis", 0) / 1000
+      client_id = Google::Auth::ClientId.new(
+        Rails.application.credentials.google_client_id,
+        Rails.application.credentials.google_client_secret
       )
+      token_store = Gcal::DatabaseTokenStore.new
+      callback_uri = nil
+      authorizer = Google::Auth::UserAuthorizer.new(
+        client_id, @connection.scope, token_store, callback_uri
+      )
+
+      calendar_service.authorization = authorizer.get_credentials(@connection.id, @connection.scope)
 
       calendar_service
     end
