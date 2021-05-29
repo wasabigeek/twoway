@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_083659) do
+ActiveRecord::Schema.define(version: 2021_05_29_100546) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_083659) do
   create_table "calendar_events", force: :cascade do |t|
     t.integer "calendar_source_id", null: false
     t.integer "synced_event_data_id"
-    t.string "external_id", null: false
+    t.string "external_id"
     t.datetime "snapshot_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
