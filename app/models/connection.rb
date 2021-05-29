@@ -22,6 +22,10 @@ class Connection < ApplicationRecord
     provider == PROVIDER_NOTION
   end
 
+  def google?
+    provider == PROVIDER_GOOGLE
+  end
+
   def client
     case provider
     when PROVIDER_NOTION

@@ -5,6 +5,16 @@ module Gcal
     end
 
     def list_calendars
+      calendar_service.list_calendar_lists.items
+    end
+
+    def create_event(calendar_id, gcal_event)
+      calendar_service.insert_event(calendar_id, gcal_event)
+    end
+
+    private
+
+    def calendar_service
       calendar_service = Google::Apis::CalendarV3::CalendarService.new
       calendar_service.authorization = Google::Auth::UserRefreshCredentials.new(
         client_id:     Rails.application.credentials.google_client_id,
@@ -15,7 +25,7 @@ module Gcal
         # expires_at:    data.fetch("expiration_time_millis", 0) / 1000
       )
 
-      calendar_service.list_calendar_lists.items
+      calendar_service
     end
   end
 end
