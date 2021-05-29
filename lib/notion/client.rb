@@ -30,7 +30,8 @@ module Notion
           title: obj.dig('properties', 'Name', 'title').first['plain_text'],
           # TODO: make this property configurable
           starts_at: obj.dig('properties', 'Date', 'date', 'start'),
-          ends_at: obj.dig('properties', 'Date', 'date', 'end')
+          ends_at: obj.dig('properties', 'Date', 'date', 'end'),
+          updated_at: obj['last_edited_time']
         )
       end
     end
