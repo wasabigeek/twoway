@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_041128) do
+ActiveRecord::Schema.define(version: 2021_05_29_041505) do
+
+  create_table "calendar_event_sources", force: :cascade do |t|
+    t.integer "calendar_event_id", null: false
+    t.integer "calendar_source_id", null: false
+    t.string "external_id"
+    t.datetime "snapshot_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["calendar_event_id"], name: "index_calendar_event_sources_on_calendar_event_id"
+    t.index ["calendar_source_id"], name: "index_calendar_event_sources_on_calendar_source_id"
+    t.index ["external_id"], name: "index_calendar_event_sources_on_external_id"
+  end
 
   create_table "calendar_events", force: :cascade do |t|
     t.string "name", null: false
@@ -71,6 +83,8 @@ ActiveRecord::Schema.define(version: 2021_05_29_041128) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "calendar_event_sources", "calendar_events"
+  add_foreign_key "calendar_event_sources", "calendar_sources"
   add_foreign_key "calendar_sources", "connections"
   add_foreign_key "connections", "users"
   add_foreign_key "sync_sources", "calendar_sources"
