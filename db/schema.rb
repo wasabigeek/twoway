@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_042031) do
+ActiveRecord::Schema.define(version: 2021_05_29_081121) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -27,25 +27,16 @@ ActiveRecord::Schema.define(version: 2021_05_29_042031) do
     t.index ["calendar_source_id"], name: "index_calendar_event_snapshots_on_calendar_source_id"
   end
 
-  create_table "calendar_event_sources", force: :cascade do |t|
+  create_table "calendar_events", force: :cascade do |t|
     t.integer "calendar_event_id", null: false
     t.integer "calendar_source_id", null: false
     t.string "external_id"
     t.datetime "snapshot_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["calendar_event_id"], name: "index_calendar_event_sources_on_calendar_event_id"
-    t.index ["calendar_source_id"], name: "index_calendar_event_sources_on_calendar_source_id"
-    t.index ["external_id"], name: "index_calendar_event_sources_on_external_id"
-  end
-
-  create_table "calendar_events", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "starts_at", null: false
-    t.datetime "ends_at"
-    t.datetime "snapshot_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.index ["calendar_event_id"], name: "index_calendar_events_on_calendar_event_id"
+    t.index ["calendar_source_id"], name: "index_calendar_events_on_calendar_source_id"
+    t.index ["external_id"], name: "index_calendar_events_on_external_id"
   end
 
   create_table "calendar_sources", force: :cascade do |t|
@@ -79,6 +70,15 @@ ActiveRecord::Schema.define(version: 2021_05_29_042031) do
     t.index ["sync_id"], name: "index_sync_sources_on_sync_id"
   end
 
+  create_table "synced_event_data", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at"
+    t.datetime "snapshot_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "syncs", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -98,10 +98,10 @@ ActiveRecord::Schema.define(version: 2021_05_29_042031) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "calendar_event_snapshots", "calendar_events"
   add_foreign_key "calendar_event_snapshots", "calendar_sources"
-  add_foreign_key "calendar_event_sources", "calendar_events"
-  add_foreign_key "calendar_event_sources", "calendar_sources"
+  add_foreign_key "calendar_event_snapshots", "synced_event_data", column: "calendar_event_id"
+  add_foreign_key "calendar_events", "calendar_sources"
+  add_foreign_key "calendar_events", "synced_event_data", column: "calendar_event_id"
   add_foreign_key "calendar_sources", "connections"
   add_foreign_key "connections", "users"
   add_foreign_key "sync_sources", "calendar_sources"
