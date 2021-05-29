@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_103545) do
+ActiveRecord::Schema.define(version: 2021_05_29_124224) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_103545) do
     t.integer "user_id", null: false
     t.string "provider"
     t.string "scope"
+    t.datetime "expires_at"
     t.index ["user_id"], name: "index_connections_on_user_id"
   end
 
