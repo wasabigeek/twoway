@@ -7,15 +7,17 @@ class CalendarEventSnapshot < ApplicationRecord
   # TODO: async
   after_commit :process, on: :create
 
+  scope :in_latest_order, -> { order(snapshot_at: :desc) }
+
   def process
     return if state == STATE_PROCESSED
 
-    event = calendar_event || CalendarEvent.create!(
+    event = CalendarEvent.find_or_initialize_by(
       external_id: external_id,
       calendar_source: calendar_source,
-      snapshot_at: snapshot_at
     )
-    event.publish_changes
+    event.update!(snapshot_at: snapshot_at)
+    event.publish_latest_change
 
     update!(state: STATE_PROCESSED, calendar_event: event)
   end

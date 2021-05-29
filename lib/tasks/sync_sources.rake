@@ -9,12 +9,15 @@ namespace :sync_sources do
           snapshot_at: event_change.updated_at,
           calendar_source: source
         )
-        snapshot.update!(
-          name: event_change.title,
-          starts_at: event_change.starts_at,
-          ends_at: event_change.ends_at
-        )
-        # snapshot.queue (maybe do it in after_commit for now)
+        unless snapshot.persisted?
+          snapshot.update!(
+            name: event_change.title,
+            starts_at: event_change.starts_at,
+            ends_at: event_change.ends_at
+          )
+          puts "Created new snapshot ID #{snapshot.id}"
+          # after_commit triggered in CalendarEventSnapshot
+        end
       end
     end
   end
