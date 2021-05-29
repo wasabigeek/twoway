@@ -12,12 +12,13 @@ class CalendarEventSnapshot < ApplicationRecord
   def process
     return if state == STATE_PROCESSED
 
+    Rails.logger.info("Processing CalendarEventSnapshot ID #{id}.")
     event = CalendarEvent.find_or_create_by!(
       external_id: external_id,
       calendar_source: calendar_source,
     )
-    event.publish_latest_change
-
     update!(state: STATE_PROCESSED, calendar_event: event)
+
+    event.publish_latest_change
   end
 end
