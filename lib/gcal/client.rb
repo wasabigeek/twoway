@@ -14,6 +14,14 @@ module Gcal
       calendar_service.insert_event(calendar_id, gcal_event)
     end
 
+    def update_event(calendar_id, event_id, gcal_event)
+      calendar_service.patch_event(
+        calendar_id,
+        event_id,
+        gcal_event
+      )
+    end
+
     private
 
     def calendar_service

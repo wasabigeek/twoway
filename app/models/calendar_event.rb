@@ -1,3 +1,5 @@
+require 'gcal/client'
+
 class CalendarEvent < ApplicationRecord
   belongs_to :calendar_source
   belongs_to :synced_event_datum, optional: true
@@ -6,7 +8,8 @@ class CalendarEvent < ApplicationRecord
   def publish_latest_change
     Rails.logger.info("Publishing latest changes for CalendarEvent ID #{id}.")
     # TODO: figure out race condition, maybe a combination of locks + unique constraints
-    synced_datum = synced_event_datum || SyncedEventDatum.create!(
+    synced_datum = synced_event_datum || SyncedEventDatum.new
+    synced_datum.update!(
       name: last_snapshot.name,
       starts_at: last_snapshot.starts_at,
       ends_at: last_snapshot.ends_at
@@ -28,12 +31,32 @@ class CalendarEvent < ApplicationRecord
       if source_datum != datum_to_sync
         Rails.logger.info("Pushing updates for CalendarEvent ID #{id} to CalendarSource ID #{calendar_source.id}.")
 
-        # TODO: update in source
+        update_in_source(synced_event_datum)
       end
     end
   end
 
+  private
+
   def last_snapshot
     calendar_event_snapshots.in_latest_order.first
+  end
+
+  def update_in_source(event_data)
+    gcal_event = Google::Apis::CalendarV3::Event.new(
+      summary: event_data.name,
+      start: Google::Apis::CalendarV3::EventDateTime.new(
+        date_time: event_data.starts_at.iso8601,
+        time_zone: 'Etc/GMT'
+      ),
+      end: Google::Apis::CalendarV3::EventDateTime.new(
+        date_time: (event_data.ends_at || event_data.starts_at).iso8601,
+        time_zone: 'Etc/GMT'
+      )
+    )
+
+    Gcal::Client
+      .new(connection: calendar_source.connection)
+      .update_event(calendar_source.external_id, external_id, gcal_event)
   end
 end
