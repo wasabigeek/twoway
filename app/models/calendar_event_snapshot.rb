@@ -12,11 +12,10 @@ class CalendarEventSnapshot < ApplicationRecord
   def process
     return if state == STATE_PROCESSED
 
-    event = CalendarEvent.find_or_initialize_by(
+    event = CalendarEvent.find_or_create_by!(
       external_id: external_id,
       calendar_source: calendar_source,
     )
-    event.update!(snapshot_at: snapshot_at)
     event.publish_latest_change
 
     update!(state: STATE_PROCESSED, calendar_event: event)
