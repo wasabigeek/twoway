@@ -24,6 +24,16 @@ class CalendarSource < ApplicationRecord
     end
   end
 
+  #
+  # @param [String] external_event_id
+  # @param [#name#starts_at#ends_at] event_data
+  #
+  def update_event(external_event_id, event_data)
+    if connection.google?
+      update_gcal_event(external_event_id, event_data)
+    end
+  end
+
   private
 
   def create_gcal_event(event_data)
@@ -43,7 +53,24 @@ class CalendarSource < ApplicationRecord
       .new(connection: connection)
       .create_event(external_id, gcal_event)
 
-    Rails.logger.info(created)
     created.id
+  end
+
+  def update_gcal_event(gcal_event_id, event_data)
+    gcal_event = Google::Apis::CalendarV3::Event.new(
+      summary: event_data.name,
+      start: Google::Apis::CalendarV3::EventDateTime.new(
+        date_time: event_data.starts_at.iso8601,
+        time_zone: 'Etc/GMT'
+      ),
+      end: Google::Apis::CalendarV3::EventDateTime.new(
+        date_time: (event_data.ends_at || event_data.starts_at).iso8601,
+        time_zone: 'Etc/GMT'
+      )
+    )
+
+    Gcal::Client
+      .new(connection: connection)
+      .update_event(external_id, gcal_event_id, gcal_event)
   end
 end

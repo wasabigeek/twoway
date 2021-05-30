@@ -1,6 +1,7 @@
 namespace :sync_sources do
   desc "Retrieves events (only changes where possible) from active Syncs for processing"
   task pull_changes: :environment do
+    Rails.logger = Logger.new(STDOUT)
     # TODO: check if this leads to duplicate sources
     CalendarSource.joins(:syncs).merge(Sync.active).find_each do |source|
       source.event_changes.each do |event_change|
