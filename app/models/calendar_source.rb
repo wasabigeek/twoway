@@ -10,6 +10,8 @@ class CalendarSource < ApplicationRecord
   def event_changes
     if connection.notion?
       connection.client.list_pages(external_id)
+    elsif connection.google?
+      connection.client.list_events(external_id)
     else
       []
     end

@@ -22,6 +22,19 @@ module Gcal
       )
     end
 
+    def list_events(calendar_id)
+      calendar_service.list_events(calendar_id).items.map do |obj|
+        OpenStruct.new(
+          id: obj.id,
+          title: obj.summary,
+          # TODO: handle all day (uses `date` instead https://developers.google.com/calendar/v3/reference/events#resource)
+          starts_at: obj.start.date_time&.iso8601(3),
+          ends_at: obj.end.date_time&.iso8601(3),
+          updated_at: obj.updated.iso8601(3)
+        )
+      end
+    end
+
     private
 
     def calendar_service
