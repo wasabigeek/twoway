@@ -27,7 +27,7 @@ module Notion
       response.parsed['results'].map do |obj|
         OpenStruct.new(
           id: obj['id'],
-          title: obj.dig('properties', 'Name', 'title').first['plain_text'],
+          name: obj.dig('properties', 'Name', 'title').first['plain_text'],
           # TODO: make this property configurable
           starts_at: obj.dig('properties', 'Date', 'date', 'start'),
           ends_at: obj.dig('properties', 'Date', 'date', 'end'),
@@ -40,12 +40,46 @@ module Notion
       response = oauth_token.get("https://api.notion.com/v1/pages/#{page_id}")
       obj = response.parsed
       OpenStruct.new(
-        id: obj['id'],
-        title: obj.dig('properties', 'Name', 'title').first['plain_text'],
+        external_id: obj['id'],
+        name: obj.dig('properties', 'Name', 'title').first['plain_text'],
         # TODO: make this property configurable
         starts_at: obj.dig('properties', 'Date', 'date', 'start'),
         ends_at: obj.dig('properties', 'Date', 'date', 'end'),
         updated_at: obj['last_edited_time']
+      )
+    end
+
+    #
+    # @param [String] external_event_id
+    # @param [#external_id#name#starts_at#ends_at] event_data
+    #
+    def update_event(external_event_id, event_data)
+      oauth_token.patch(
+        "https://api.notion.com/v1/pages/#{external_event_id}",
+        body: {
+          'properties' => {
+            "Name" => {
+              "type" => "title",
+              "title" => [
+                {
+                  "type" => "text",
+                  "text" => {
+                    "content" => event_data.name,
+                    "link" => nil
+                  }
+                }
+              ]
+            },
+          "Date" => {
+              "type" => "date",
+              "date" => {
+                "start" => event_data.starts_at,
+                "end" => event_data.ends_at
+              }
+            },
+          }
+        }.to_json,
+        headers: { "Content-Type" => "application/json" }
       )
     end
 

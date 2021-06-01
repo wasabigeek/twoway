@@ -10,7 +10,7 @@ class CalendarSource < ApplicationRecord
   def check_for_new_events
     # TODO: this is likely very heavy, optimize / fan out
     raw_events.each do |raw_event|
-      event = calendar_events.find_or_create_by!(external_id: raw_event.id)
+      calendar_events.find_or_create_by!(external_id: raw_event.external_id)
     end
   end
 
@@ -30,6 +30,8 @@ class CalendarSource < ApplicationRecord
   def update_event(external_event_id, event_data)
     if connection.google?
       update_gcal_event(external_event_id, event_data)
+    else
+      client.update_event(external_event_id, event_data)
     end
   end
 
@@ -60,7 +62,7 @@ class CalendarSource < ApplicationRecord
       .new(connection: connection)
       .create_event(external_id, gcal_event)
 
-    created.id
+    created.external_id
   end
 
   def update_gcal_event(gcal_event_id, event_data)

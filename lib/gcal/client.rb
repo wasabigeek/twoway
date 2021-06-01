@@ -40,7 +40,7 @@ module Gcal
     def normalise_event(raw_event)
       OpenStruct.new(
         id: raw_event.id,
-        title: raw_event.summary,
+        name: raw_event.summary,
         # TODO: handle all day (uses `date` instead https://developers.google.com/calendar/v3/reference/events#resource)
         starts_at: raw_event.start.date_time&.iso8601(3),
         ends_at: raw_event.end.date_time&.iso8601(3),

@@ -21,7 +21,7 @@ class CalendarEvent < ApplicationRecord
       external_id: external_id,
       calendar_source: calendar_source,
       calendar_event: self,
-      name: raw_event.title,
+      name: raw_event.name,
       starts_at: raw_event.starts_at,
       ends_at: raw_event.ends_at,
       snapshot_at: raw_event.updated_at,
