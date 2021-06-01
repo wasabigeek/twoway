@@ -36,6 +36,19 @@ module Notion
       end
     end
 
+    def get_event(database_id, page_id)
+      response = oauth_token.get("https://api.notion.com/v1/pages/#{page_id}")
+      obj = response.parsed
+      OpenStruct.new(
+        id: obj['id'],
+        title: obj.dig('properties', 'Name', 'title').first['plain_text'],
+        # TODO: make this property configurable
+        starts_at: obj.dig('properties', 'Date', 'date', 'start'),
+        ends_at: obj.dig('properties', 'Date', 'date', 'end'),
+        updated_at: obj['last_edited_time']
+      )
+    end
+
     private
 
     def oauth_token

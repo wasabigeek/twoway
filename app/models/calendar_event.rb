@@ -20,6 +20,7 @@ class CalendarEvent < ApplicationRecord
     CalendarEventSnapshot.create!(
       external_id: external_id,
       calendar_source: calendar_source,
+      calendar_event: self,
       name: raw_event.title,
       starts_at: raw_event.starts_at,
       ends_at: raw_event.ends_at,
@@ -27,17 +28,8 @@ class CalendarEvent < ApplicationRecord
     )
   end
 
-  def self.handle_new_snapshot(snapshot)
-    event = nil
-    transaction do
-      event = find_or_create_by!(
-        external_id: snapshot.external_id,
-        calendar_source: snapshot.calendar_source,
-      )
-      snapshot.update!(calendar_event: event)
-    end
-
-    event.update_synced_datum
+  def sync_with(snapshot)
+    calendar_source.update_event(external_id, snapshot)
   end
 
   def push_synced_data_to_source

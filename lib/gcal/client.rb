@@ -23,26 +23,30 @@ module Gcal
     end
 
     def list_events(calendar_id)
-      calendar_service.list_events(calendar_id).items.map do |obj|
-        OpenStruct.new(
-          id: obj.id,
-          title: obj.summary,
-          # TODO: handle all day (uses `date` instead https://developers.google.com/calendar/v3/reference/events#resource)
-          starts_at: obj.start.date_time&.iso8601(3),
-          ends_at: obj.end.date_time&.iso8601(3),
-          updated_at: obj.updated.iso8601(3)
-        )
-      end
+      calendar_service.list_events(calendar_id).items.map(&:normalise_event)
     end
 
     def get_event(calendar_id, event_id)
-      calendar_service.get_event(
+      raw_event = calendar_service.get_event(
         calendar_id,
         event_id,
       )
+
+      normalise_event(raw_event)
     end
 
     private
+
+    def normalise_event(raw_event)
+      OpenStruct.new(
+        id: raw_event.id,
+        title: raw_event.summary,
+        # TODO: handle all day (uses `date` instead https://developers.google.com/calendar/v3/reference/events#resource)
+        starts_at: raw_event.start.date_time&.iso8601(3),
+        ends_at: raw_event.end.date_time&.iso8601(3),
+        updated_at: raw_event.updated.iso8601(3)
+      )
+    end
 
     def calendar_service
       calendar_service = Google::Apis::CalendarV3::CalendarService.new
