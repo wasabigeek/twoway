@@ -3,6 +3,18 @@ class SyncedEventDatum < ApplicationRecord
   has_many :calendar_sources, through: :calendar_events
 
   def sync
+    # check for latest write
+    latest_snapshots = calendar_events.map(&:take_snapshot).sort(&:snapshot_at)
+
+    # # create in missing sources
+    # targets = CalendarSource
+    #   .joins(:syncs)
+    #   .where(syncs: origin.syncs.active)
+    #   .distinct
+    # targets.each do |target|
+    #   target_event = calendar_events.find_or_create_by!(calendar_source: target)
+    #   target_event.push_synced_data_to_source
+    # end
   end
 
   def snapshots

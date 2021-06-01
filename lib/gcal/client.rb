@@ -35,6 +35,13 @@ module Gcal
       end
     end
 
+    def get_event(calendar_id, event_id)
+      calendar_service.get_event(
+        calendar_id,
+        event_id,
+      )
+    end
+
     private
 
     def calendar_service

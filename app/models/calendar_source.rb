@@ -33,7 +33,17 @@ class CalendarSource < ApplicationRecord
     end
   end
 
+  def get_event(external_event_id)
+    if connection.google?
+      gcal_client.get_event(external_id, external_event_id)
+    end
+  end
+
   private
+
+  def gcal_client
+    Gcal::Client.new(connection: connection)
+  end
 
   def create_gcal_event(event_data)
     gcal_event = Google::Apis::CalendarV3::Event.new(

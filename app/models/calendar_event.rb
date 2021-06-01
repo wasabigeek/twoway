@@ -14,6 +14,19 @@ class CalendarEvent < ApplicationRecord
     # possibly trigger an initial sync here without waiting for the cron
   end
 
+  def take_snapshot
+    raw_event = calendar_source.get_event(external_id)
+    # TODO: handle deletions
+    CalendarEventSnapshot.create!(
+      external_id: external_id,
+      calendar_source: calendar_source,
+      name: raw_event.title,
+      starts_at: raw_event.starts_at,
+      ends_at: raw_event.ends_at,
+      snapshot_at: raw_event.updated_at,
+    )
+  end
+
   def self.handle_new_snapshot(snapshot)
     event = nil
     transaction do
