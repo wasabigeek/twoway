@@ -2,6 +2,9 @@ class SyncedEventDatum < ApplicationRecord
   has_many :calendar_events
   has_many :calendar_sources, through: :calendar_events
 
+  def sync
+  end
+
   def snapshots
     CalendarEventSnapshot.where(calendar_event: calendar_events).in_latest_order
   end

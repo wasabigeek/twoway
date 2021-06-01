@@ -4,16 +4,13 @@ class CalendarSource < ApplicationRecord
   belongs_to :connection
   has_many :sync_sources
   has_many :syncs, through: :sync_sources
-  has_many :calendar_source_events
-  has_many :calendar_source_events, through: :calendar_event_sources
+  has_many :calendar_events
+  has_many :synced_event_data, through: :calendar_events
 
-  def event_changes
-    if connection.notion?
-      connection.client.list_pages(external_id)
-    elsif connection.google?
-      connection.client.list_events(external_id)
-    else
-      []
+  def check_for_new_events
+    # TODO: this is likely very heavy, optimize / fan out
+    raw_events.each do |raw_event|
+      event = calendar_events.find_or_create_by!(external_id: raw_event.id)
     end
   end
 
@@ -74,5 +71,15 @@ class CalendarSource < ApplicationRecord
     Gcal::Client
       .new(connection: connection)
       .update_event(external_id, gcal_event_id, gcal_event)
+  end
+
+  def raw_events
+    if connection.notion?
+      connection.client.list_pages(external_id)
+    elsif connection.google?
+      connection.client.list_events(external_id)
+    else
+      []
+    end
   end
 end

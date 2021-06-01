@@ -5,6 +5,15 @@ class CalendarEvent < ApplicationRecord
   belongs_to :synced_event_datum, optional: true
   has_many :calendar_event_snapshots
 
+  after_commit :create_synced_event, on: :create
+
+  def create_synced_event
+    return unless synced_event_datum.nil?
+
+    update!(synced_event_datum: SyncedEventDatum.create!)
+    # possibly trigger an initial sync here without waiting for the cron
+  end
+
   def self.handle_new_snapshot(snapshot)
     event = nil
     transaction do
