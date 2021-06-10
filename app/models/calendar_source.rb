@@ -15,14 +15,16 @@ class CalendarSource < ApplicationRecord
   end
 
   #
-  # @param [#name#starts_at#ends_at] event_data
+  # @param [#name#starts_at#ends_at] snapshot
   #
-  def create_event(event_data)
+  def create_event(snapshot)
     if connection.google?
-      create_gcal_event(event_data)
+      create_gcal_event(snapshot)
     end
   end
 
+
+  # TODO: make it more consistent with create_event
   #
   # @param [String] external_event_id
   # @param [#name#starts_at#ends_at] event_data

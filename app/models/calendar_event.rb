@@ -29,6 +29,7 @@ class CalendarEvent < ApplicationRecord
   end
 
   def sync_with(snapshot)
+    # TODO: only update if necessary?
     calendar_source.update_event(external_id, snapshot)
   end
 
