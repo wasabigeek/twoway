@@ -3,6 +3,14 @@ class NotionSyncSourcesController < ApplicationController
 
   def new
     notion_connection = current_user.connections.for_notion
+    if notion_connection.nil?
+      # add url to redirect to after success in state
+      redirect_to Notion::OAuthClient
+        .new(redirect_url: oauth_callbacks_notion_url)
+        .authorize_url
+      return
+    end
+
     @sync_source = SyncSource.new
     @databases = notion_connection.client.list_databases
   end
