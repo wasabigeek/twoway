@@ -32,30 +32,6 @@ class CalendarEvent < ApplicationRecord
     calendar_source.update_event(external_id, snapshot)
   end
 
-  def push_synced_data_to_source
-    if external_id.nil?
-      Rails.logger.info("Creating event for CalendarEvent ID #{id} in CalendarSource ID #{calendar_source.id}.")
-      created_id = calendar_source.create_event(synced_event_datum)
-      update!(external_id: created_id)
-    else
-      Rails.logger.info("Pushing updates for CalendarEvent ID #{id} to CalendarSource ID #{calendar_source.id}.")
-      calendar_source.update_event(external_id, synced_event_datum)
-    end
-  end
-
-  def update_synced_datum
-    synced_datum = synced_event_datum || SyncedEventDatum.new
-    # TODO: we can remove this since we will take the last snapshot's data
-    Rails.logger.info(last_snapshot)
-    synced_datum.update!(
-      name: last_snapshot.name,
-      starts_at: last_snapshot.starts_at,
-      ends_at: last_snapshot.ends_at
-    )
-    update!(synced_event_datum: synced_datum)
-    synced_datum.publish_latest_change # TODO: async
-  end
-
   private
 
   def last_snapshot
