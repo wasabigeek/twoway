@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_10_140944) do
+ActiveRecord::Schema.define(version: 2021_06_12_125506) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -29,13 +29,13 @@ ActiveRecord::Schema.define(version: 2021_06_10_140944) do
 
   create_table "calendar_events", force: :cascade do |t|
     t.integer "calendar_source_id", null: false
-    t.integer "synced_event_datum_id"
+    t.integer "synced_event_id"
     t.string "external_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["calendar_source_id"], name: "index_calendar_events_on_calendar_source_id"
     t.index ["external_id"], name: "index_calendar_events_on_external_id"
-    t.index ["synced_event_datum_id"], name: "index_calendar_events_on_synced_event_datum_id"
+    t.index ["synced_event_id"], name: "index_calendar_events_on_synced_event_id"
   end
 
   create_table "calendar_sources", force: :cascade do |t|
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_06_10_140944) do
     t.index ["sync_id"], name: "index_sync_sources_on_sync_id"
   end
 
-  create_table "synced_event_data", force: :cascade do |t|
+  create_table "synced_events", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2021_06_10_140944) do
   add_foreign_key "calendar_event_snapshots", "calendar_events"
   add_foreign_key "calendar_event_snapshots", "calendar_sources"
   add_foreign_key "calendar_events", "calendar_sources"
-  add_foreign_key "calendar_events", "synced_event_data"
+  add_foreign_key "calendar_events", "synced_events"
   add_foreign_key "calendar_sources", "connections"
   add_foreign_key "connections", "users"
   add_foreign_key "sync_sources", "calendar_sources"

@@ -5,7 +5,7 @@ class CalendarSource < ApplicationRecord
   has_many :sync_sources
   has_many :syncs, through: :sync_sources
   has_many :calendar_events
-  has_many :synced_event_data, through: :calendar_events
+  has_many :synced_events, through: :calendar_events
 
   def check_for_new_events
     # TODO: this is likely very heavy, optimize / fan out
@@ -17,10 +17,10 @@ class CalendarSource < ApplicationRecord
   #
   # @param [#name#starts_at#ends_at] snapshot
   #
-  def create_event(synced_event_datum, snapshot)
+  def create_event(synced_event, snapshot)
     if connection.google?
       external_id = create_gcal_event(snapshot)
-      calendar_events.create!(synced_event_datum: synced_event_datum, external_id: external_id)
+      calendar_events.create!(synced_event: synced_event, external_id: external_id)
     end
   end
 
