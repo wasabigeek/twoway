@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_125506) do
+ActiveRecord::Schema.define(version: 2021_06_12_130018) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2021_06_12_125506) do
   create_table "synced_events", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "sync_id", null: false
+    t.index ["sync_id"], name: "index_synced_events_on_sync_id"
   end
 
   create_table "syncs", force: :cascade do |t|
@@ -102,5 +104,6 @@ ActiveRecord::Schema.define(version: 2021_06_12_125506) do
   add_foreign_key "connections", "users"
   add_foreign_key "sync_sources", "calendar_sources"
   add_foreign_key "sync_sources", "syncs"
+  add_foreign_key "synced_events", "syncs"
   add_foreign_key "syncs", "users"
 end
