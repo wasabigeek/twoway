@@ -5,6 +5,8 @@ class Connection < ApplicationRecord
   PROVIDER_NOTION = 'notion'
   PROVIDER_GOOGLE = 'google_oauth2'
 
+  belongs_to :user
+
   scope :notion, -> { where(provider: PROVIDER_NOTION) }
   scope :google, -> { where(provider: PROVIDER_GOOGLE) }
 

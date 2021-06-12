@@ -11,7 +11,8 @@ module Gcal
     end
 
     def create_event(calendar_id, gcal_event)
-      calendar_service.insert_event(calendar_id, gcal_event)
+      result = calendar_service.insert_event(calendar_id, gcal_event)
+      normalise_event(result)
     end
 
     def update_event(calendar_id, event_id, gcal_event)
@@ -23,7 +24,7 @@ module Gcal
     end
 
     def list_events(calendar_id)
-      calendar_service.list_events(calendar_id).items.map(&:normalise_event)
+      calendar_service.list_events(calendar_id).items.map { |gcal_event| normalise_event(gcal_event) }
     end
 
     def get_event(calendar_id, event_id)

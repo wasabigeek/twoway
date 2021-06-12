@@ -12,14 +12,16 @@ class SyncedEventDatum < ApplicationRecord
     end
 
     # create in missing sources
+    user = calendar_sources.first.connection.user
     new_sources = CalendarSource
       .joins(:syncs)
       .merge(Sync.active)
-      .where(user: calendar_sources.first.user) # ew
+      .where(connection: user.connections)
       .where.not(id: calendar_sources)
       .distinct
+
     new_sources.each do |new_source|
-      new_source.create_event(last_write_snapshot)
+      new_source.create_event(self, last_write_snapshot)
     end
   end
 

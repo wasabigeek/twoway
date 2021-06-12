@@ -10,16 +10,17 @@ class CalendarSource < ApplicationRecord
   def check_for_new_events
     # TODO: this is likely very heavy, optimize / fan out
     raw_events.each do |raw_event|
-      calendar_events.find_or_create_by!(external_id: raw_event.external_id)
+      calendar_events.find_or_create_by!(external_id: raw_event.id)
     end
   end
 
   #
   # @param [#name#starts_at#ends_at] snapshot
   #
-  def create_event(snapshot)
+  def create_event(synced_event_datum, snapshot)
     if connection.google?
-      create_gcal_event(snapshot)
+      external_id = create_gcal_event(snapshot)
+      calendar_events.create!(synced_event_datum: synced_event_datum, external_id: external_id)
     end
   end
 
@@ -60,11 +61,9 @@ class CalendarSource < ApplicationRecord
       )
     )
 
-    created = Gcal::Client
+    Gcal::Client
       .new(connection: connection)
       .create_event(external_id, gcal_event)
-
-    created.external_id
   end
 
   def update_gcal_event(gcal_event_id, event_data)
