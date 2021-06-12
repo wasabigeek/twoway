@@ -2,7 +2,7 @@
   <% if @sync.notion_source %>
     <%= @sync.notion_source.name %>
   <% else %>
-    <%= link_to 'Add Notion Calendar', new_sync_notion_sync_source_path(sync_id: @sync.id) %>
+    <%= link_to 'Add Notion Calendar', new_sync_notion_calendar_path(sync_id: @sync.id) %>
   <% end %>
 </p>
 <p>

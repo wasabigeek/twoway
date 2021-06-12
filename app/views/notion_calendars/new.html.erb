@@ -1,6 +1,6 @@
 <h1>Choose a Notion Database for this Sync</h1>
 <% @databases.each do |database| %>
-  <%= form_with(url: sync_notion_sync_sources_path) do |form| %>
+  <%= form_with(url: sync_notion_calendars_path) do |form| %>
     <%= hidden_field_tag(:database_external_id, database.id) %>
     <%= hidden_field_tag(:database_name, database.title) %>
 

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
   resources :syncs do
-    resources :notion_sync_sources, only: [:new, :create, :destroy]
+    resources :notion_calendars, only: [:new, :create, :destroy]
     resources :gcal_sync_sources, only: [:new, :create, :destroy]
   end
 
