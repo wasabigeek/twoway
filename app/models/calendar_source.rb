@@ -18,8 +18,8 @@ class CalendarSource < ApplicationRecord
   #
   def create_event(synced_event, snapshot)
     if connection.google?
-      external_id = create_gcal_event(snapshot)
-      calendar_events.create!(synced_event: synced_event, external_id: external_id)
+      external_event = create_gcal_event(snapshot)
+      calendar_events.create!(synced_event: synced_event, external_id: external_event.id)
     end
   end
 

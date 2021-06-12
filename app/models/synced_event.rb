@@ -1,25 +1,21 @@
 class SyncedEvent < ApplicationRecord
+  belongs_to :sync
   has_many :calendar_events
   has_many :calendar_sources, through: :calendar_events
 
-  def sync
-    snapshots = calendar_events.map(&:take_snapshot).sort_by(&:snapshot_at)
-    last_write_snapshot = snapshots.pop
+  def synchronize
+    return unless sync.active?
 
-    # TODO: handle syncs that are inactive
+    transaction do
+      snapshots = calendar_events.map(&:take_snapshot).sort_by(&:snapshot_at)
+      last_write_snapshot = snapshots.pop
+    end
+
     snapshots.each do |snapshot|
       snapshot.calendar_event.sync_with(last_write_snapshot)
     end
 
-    # create in missing sources
-    user = calendar_sources.first.connection.user
-    new_sources = CalendarSource
-      .joins(:syncs)
-      .merge(Sync.active)
-      .where(connection: user.connections)
-      .where.not(id: calendar_sources)
-      .distinct
-
+    new_sources = sync.calendar_sources - calendar_sources
     new_sources.each do |new_source|
       new_source.create_event(self, last_write_snapshot)
     end

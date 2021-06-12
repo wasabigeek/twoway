@@ -12,7 +12,7 @@ namespace :sync do
   task synced_events: :environment do
     Rails.logger = Logger.new(STDOUT) if Rails.env.development?
 
-    SyncedEventDatum.find_each(&:sync)
+    SyncedEvent.find_each(&:synchronize)
   end
 
 end
