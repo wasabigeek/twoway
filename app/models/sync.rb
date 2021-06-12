@@ -1,6 +1,7 @@
 class Sync < ApplicationRecord
   belongs_to :user
   has_many :calendar_sources
+  has_many :synced_events
 
   # TODO: actually filter
   scope :active, -> { all }

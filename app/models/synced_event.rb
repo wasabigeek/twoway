@@ -1,4 +1,4 @@
-class SyncedEventDatum < ApplicationRecord
+class SyncedEvent < ApplicationRecord
   has_many :calendar_events
   has_many :calendar_sources, through: :calendar_events
 
