@@ -2,8 +2,7 @@ require 'gcal/client'
 
 class CalendarSource < ApplicationRecord
   belongs_to :connection
-  has_many :sync_sources
-  has_many :syncs, through: :sync_sources
+  belongs_to :sync
   has_many :calendar_events
   has_many :synced_events, through: :calendar_events
 

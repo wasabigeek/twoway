@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_130018) do
+ActiveRecord::Schema.define(version: 2021_06_12_130619) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -44,8 +44,10 @@ ActiveRecord::Schema.define(version: 2021_06_12_130018) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
+    t.integer "sync_id", null: false
     t.index ["connection_id"], name: "index_calendar_sources_on_connection_id"
     t.index ["external_id"], name: "index_calendar_sources_on_external_id"
+    t.index ["sync_id"], name: "index_calendar_sources_on_sync_id"
   end
 
   create_table "connections", force: :cascade do |t|
@@ -59,15 +61,6 @@ ActiveRecord::Schema.define(version: 2021_06_12_130018) do
     t.string "scope"
     t.datetime "expires_at"
     t.index ["user_id"], name: "index_connections_on_user_id"
-  end
-
-  create_table "sync_sources", force: :cascade do |t|
-    t.integer "sync_id", null: false
-    t.integer "calendar_source_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["calendar_source_id"], name: "index_sync_sources_on_calendar_source_id"
-    t.index ["sync_id"], name: "index_sync_sources_on_sync_id"
   end
 
   create_table "synced_events", force: :cascade do |t|
@@ -101,9 +94,8 @@ ActiveRecord::Schema.define(version: 2021_06_12_130018) do
   add_foreign_key "calendar_events", "calendar_sources"
   add_foreign_key "calendar_events", "synced_events"
   add_foreign_key "calendar_sources", "connections"
+  add_foreign_key "calendar_sources", "syncs"
   add_foreign_key "connections", "users"
-  add_foreign_key "sync_sources", "calendar_sources"
-  add_foreign_key "sync_sources", "syncs"
   add_foreign_key "synced_events", "syncs"
   add_foreign_key "syncs", "users"
 end
