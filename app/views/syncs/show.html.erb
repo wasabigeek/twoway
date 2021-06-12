@@ -9,7 +9,7 @@
   <% if @sync.gcal_source %>
     <%= @sync.gcal_source.name %>
   <% else %>
-    <%= link_to 'Add Google Calendar', new_sync_gcal_sync_source_path(sync_id: @sync.id) %>
+    <%= link_to 'Add Google Calendar', new_sync_google_calendar_path(sync_id: @sync.id) %>
   <% end %>
 </p>
 

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
   resources :syncs do
     resources :notion_calendars, only: [:new, :create, :destroy]
-    resources :gcal_sync_sources, only: [:new, :create, :destroy]
+    resources :google_calendars, only: [:new, :create, :destroy]
   end
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
