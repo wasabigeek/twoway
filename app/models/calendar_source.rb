@@ -9,18 +9,20 @@ class CalendarSource < ApplicationRecord
   def check_for_new_events
     # TODO: this is likely very heavy, optimize / fan out
     raw_events.each do |raw_event|
-      calendar_events.find_or_create_by!(external_id: raw_event.id)
+      calendar_events.find_or_create_by!(external_id: raw_event.external_id)
     end
   end
 
   #
   # @param [#name#starts_at#ends_at] snapshot
   #
-  def create_event(synced_event, snapshot)
+  def push_new_event(synced_event, snapshot)
     if connection.google?
       external_event = create_gcal_event(snapshot)
-      calendar_events.create!(synced_event: synced_event, external_id: external_event.id)
+    else
+      external_event = client.create_event(external_id, snapshot)
     end
+    calendar_events.create!(synced_event: synced_event, external_id: external_event.external_id)
   end
 
 
@@ -48,6 +50,7 @@ class CalendarSource < ApplicationRecord
   end
 
   def create_gcal_event(event_data)
+    # TODO: shift this to the client
     gcal_event = Google::Apis::CalendarV3::Event.new(
       summary: event_data.name,
       start: Google::Apis::CalendarV3::EventDateTime.new(
@@ -66,6 +69,7 @@ class CalendarSource < ApplicationRecord
   end
 
   def update_gcal_event(gcal_event_id, event_data)
+    # TODO: shift this to the client
     gcal_event = Google::Apis::CalendarV3::Event.new(
       summary: event_data.name,
       start: Google::Apis::CalendarV3::EventDateTime.new(
@@ -84,6 +88,7 @@ class CalendarSource < ApplicationRecord
   end
 
   def raw_events
+    # TODO: make clients have the same interface
     if connection.notion?
       connection.client.list_pages(external_id)
     elsif connection.google?

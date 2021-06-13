@@ -6,10 +6,8 @@ class SyncedEvent < ApplicationRecord
   def synchronize
     return unless sync.active?
 
-    transaction do
-      snapshots = calendar_events.map(&:take_snapshot).sort_by(&:snapshot_at)
-      last_write_snapshot = snapshots.pop
-    end
+    snapshots = calendar_events.map(&:take_snapshot).sort_by(&:snapshot_at)
+    last_write_snapshot = snapshots.pop
 
     snapshots.each do |snapshot|
       snapshot.calendar_event.sync_with(last_write_snapshot)
@@ -17,7 +15,7 @@ class SyncedEvent < ApplicationRecord
 
     new_sources = sync.calendar_sources - calendar_sources
     new_sources.each do |new_source|
-      new_source.create_event(self, last_write_snapshot)
+      new_source.push_new_event(self, last_write_snapshot)
     end
   end
 
