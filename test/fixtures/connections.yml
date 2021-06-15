@@ -2,6 +2,10 @@
 
 one:
   name: MyString
+  provider: notion
+  user: one
 
 two:
   name: MyString
+  provider: google_oauth2
+  user: one

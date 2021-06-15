@@ -3,7 +3,9 @@
 one:
   external_id: MyString
   connection: one
+  sync: one
 
 two:
   external_id: MyString
   connection: two
+  sync: one
