@@ -1,11 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-notion_cal_one:
+notion_event_one:
   external_id: MyString
-  connection: notion
-  sync: one
+  calendar_source: notion_cal_one
 
-gcal_one:
+gcal_event_one:
   external_id: MyString
-  connection: gcal
-  sync: one
+  calendar_source: gcal_one

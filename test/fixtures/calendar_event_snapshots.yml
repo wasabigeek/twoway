@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+notion_event_one_snapshot_one:
+  name: Notion Event One
+  external_id: MyString
+  calendar_event: notion_event_one
+  calendar_source: notion
+  starts_at: <%= 1.hour.ago.to_s(:db) %>
+  ends_at: <%= Time.current.to_s(:db) %>
+  snapshot_at: <%= Time.current.to_s(:db) %>
+
+gcal_event_one_snapshot_one:
+  name: GCal Event One
+  external_id: MyString
+  calendar_event: gcal_event_one
+  calendar_source: gcal
+  starts_at: <%= 1.hour.ago.to_s(:db) %>
+  ends_at: <%= Time.current.to_s(:db) %>
+  snapshot_at: <%= Time.current.to_s(:db) %>
