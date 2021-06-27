@@ -64,3 +64,7 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "google-apis-calendar_v3", "~> 0.7.0"
 
 gem "oauth2", "~> 1.4"
+
+gem "vcr", "~> 6.0"
+
+gem "webmock", "~> 3.13"
