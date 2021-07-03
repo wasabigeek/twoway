@@ -1,0 +1,232 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://oauth2.googleapis.com/token
+    body:
+      encoding: UTF-8
+      string: "<SENSITIVE_DATA>"
+    headers:
+      User-Agent:
+      - Faraday v1.4.2
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Date:
+      - Sat, 03 Jul 2021 12:55:46 GMT
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-T051=":443"; ma=2592000,h3-Q050=":443";
+        ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443";
+        ma=2592000; v="46,43"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"SENSITIVE_DATA","expires_in":3599,"scope":"https://www.googleapis.com/auth/userinfo.email
+        https://www.googleapis.com/auth/calendar openid","token_type":"Bearer","id_token":"SENSITIVE_DATA"}'
+  recorded_at: Sat, 03 Jul 2021 12:55:46 GMT
+- request:
+    method: get
+    uri: https://www.googleapis.com/calendar/v3/calendars/c_6pfeml6hj5k752dt4qq68q0ido@group.calendar.google.com/events
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - unknown/0.0.0 google-apis-calendar_v3/0.7.0 Mac OS X/11.4 (gzip)
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip,deflate
+      Date:
+      - Sat, 03 Jul 2021 12:55:46 GMT
+      X-Goog-Api-Client:
+      - gl-ruby/2.7.3 gdcl/1.7.0
+      Authorization:
+      - Bearer <AUTH_TOKEN>
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Sat, 03 Jul 2021 12:55:47 GMT
+      Cache-Control:
+      - private, max-age=0, must-revalidate, no-transform
+      Expires:
+      - Sat, 03 Jul 2021 12:55:47 GMT
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Content-Encoding:
+      - gzip
+      Server:
+      - ESF
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-T051=":443"; ma=2592000,h3-Q050=":443";
+        ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443";
+        ma=2592000; v="46,43"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "kind": "calendar#events",
+         "etag": "\"p320df15kmmhv20g\"",
+         "summary": "Notion to GCal Sync",
+         "updated": "2021-06-19T09:48:09.648Z",
+         "timeZone": "Asia/Singapore",
+         "accessRole": "owner",
+         "defaultReminders": [],
+         "nextSyncToken": "CIDXhLS1o_ECEIDXhLS1o_ECGAYgvdyptgE=",
+         "items": [
+          {
+           "kind": "calendar#event",
+           "etag": "\"3248184595258000\"",
+           "id": "46avomjj8qkagc38r7asgvqdn2",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=NDZhdm9tamo4cWthZ2MzOHI3YXNndnFkbjJfMjAyMTA2MTkgY182cGZlbWw2aGo1azc1MmR0NHFxNjhxMGlkb0Bn",
+           "created": "2021-06-19T08:43:17.000Z",
+           "updated": "2021-06-19T08:44:57.629Z",
+           "summary": "Test Recurring Normal",
+           "creator": {
+            "email": "test@example.com",
+            "displayName": "Example User"
+           },
+           "organizer": {
+            "email": "c_6pfeml6hj5k752dt4qq68q0ido@group.calendar.google.com",
+            "displayName": "Notion to GCal Sync",
+            "self": true
+           },
+           "start": {
+            "date": "2021-06-19"
+           },
+           "end": {
+            "date": "2021-06-20"
+           },
+           "recurrence": [
+            "RRULE:FREQ=DAILY"
+           ],
+           "iCalUID": "46avomjj8qkagc38r7asgvqdn2@google.com",
+           "sequence": 1,
+           "reminders": {
+            "useDefault": false
+           },
+           "eventType": "default"
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"3248189329672000\"",
+           "id": "46avomjj8qkagc38r7asgvqdn2_20210620",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=NDZhdm9tamo4cWthZ2MzOHI3YXNndnFkbjJfMjAyMTA2MjAgY182cGZlbWw2aGo1azc1MmR0NHFxNjhxMGlkb0Bn",
+           "created": "2021-06-19T08:43:17.000Z",
+           "updated": "2021-06-19T09:24:24.836Z",
+           "summary": "Test Recurring Exception",
+           "creator": {
+            "email": "test@example.com",
+            "displayName": "Example User"
+           },
+           "organizer": {
+            "email": "c_6pfeml6hj5k752dt4qq68q0ido@group.calendar.google.com",
+            "displayName": "Notion to GCal Sync",
+            "self": true
+           },
+           "start": {
+            "date": "2021-06-20"
+           },
+           "end": {
+            "date": "2021-06-21"
+           },
+           "recurringEventId": "46avomjj8qkagc38r7asgvqdn2",
+           "originalStartTime": {
+            "date": "2021-06-20"
+           },
+           "iCalUID": "46avomjj8qkagc38r7asgvqdn2@google.com",
+           "sequence": 1,
+           "reminders": {
+            "useDefault": false
+           },
+           "eventType": "default"
+          },
+          {
+           "kind": "calendar#event",
+           "etag": "\"3248192179296000\"",
+           "id": "46avomjj8qkagc38r7asgvqdn2_20210621",
+           "status": "confirmed",
+           "htmlLink": "https://www.google.com/calendar/event?eid=NDZhdm9tamo4cWthZ2MzOHI3YXNndnFkbjJfMjAyMTA2MjEgY182cGZlbWw2aGo1azc1MmR0NHFxNjhxMGlkb0Bn",
+           "created": "2021-06-19T08:43:17.000Z",
+           "updated": "2021-06-19T09:48:09.648Z",
+           "summary": "Test Recurring Exception 2",
+           "creator": {
+            "email": "test@example.com",
+            "displayName": "Example User"
+           },
+           "organizer": {
+            "email": "c_6pfeml6hj5k752dt4qq68q0ido@group.calendar.google.com",
+            "displayName": "Notion to GCal Sync",
+            "self": true
+           },
+           "start": {
+            "dateTime": "2021-06-21T10:00:00+08:00",
+            "timeZone": "Asia/Singapore"
+           },
+           "end": {
+            "dateTime": "2021-06-21T10:30:00+08:00",
+            "timeZone": "Asia/Singapore"
+           },
+           "recurringEventId": "46avomjj8qkagc38r7asgvqdn2",
+           "originalStartTime": {
+            "date": "2021-06-21"
+           },
+           "iCalUID": "46avomjj8qkagc38r7asgvqdn2@google.com",
+           "sequence": 2,
+           "reminders": {
+            "useDefault": true
+           },
+           "eventType": "default"
+          }
+         ]
+        }
+  recorded_at: Sat, 03 Jul 2021 12:55:47 GMT
+recorded_with: VCR 6.0.0
