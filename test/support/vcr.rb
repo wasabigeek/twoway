@@ -14,6 +14,15 @@ VCR.configure do |config|
     # e.g. "Authorization"=>["Bearer secret_..."]
     interaction.request.headers['Authorization']&.first&.split&.last
   end
+  config.before_record do |interaction|
+    request, response = interaction.request, interaction.response
+    if request.uri.match?(/oauth2.googleapis.com\/token/) && request.method == :post
+      interaction.request.body = '<SENSITIVE_DATA>'
+
+      original_response = JSON.parse(response.body)
+      interaction.response.body = original_response.merge('access_token' => 'SENSITIVE_DATA', 'id_token' => 'SENSITIVE_DATA').to_json
+    end
+  end
 end
 
 
