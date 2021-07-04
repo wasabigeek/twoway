@@ -18,17 +18,26 @@ module Notion
       end
     end
 
-    def list_pages(database_id)
+    def list_events(database_id)
       # TODO: pagination & filters
       response = oauth_token.post(
         "https://api.notion.com/v1/databases/#{database_id}/query",
-        params: {'page_size' => '100'}
+        body: {'page_size' => 100}.to_json,
+        headers: { # TODO: encapsulate this better
+          'Notion-Version' => '2021-05-13',
+          "Content-Type" => "application/json"
+        }
       )
       response.parsed['results'].map { |obj| normalise_event(obj) }
     end
 
     def get_event(database_id, page_id)
-      response = oauth_token.get("https://api.notion.com/v1/pages/#{page_id}")
+      response = oauth_token.get(
+        "https://api.notion.com/v1/pages/#{page_id}",
+        headers: { # TODO: encapsulate this better
+          'Notion-Version' => '2021-05-13'
+        }
+      )
       normalise_event(response.parsed)
     end
 

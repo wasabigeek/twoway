@@ -1,0 +1,149 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.notion.com/v1/databases/86d91ec4-9f5d-4c2a-85aa-f6e9ac49be07/query
+    body:
+      encoding: UTF-8
+      string: '{"page_size":100}'
+    headers:
+      User-Agent:
+      - Faraday v1.4.2
+      Notion-Version:
+      - '2021-05-13'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <AUTH_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 04 Jul 2021 08:34:29 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=5184000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Referrer-Policy:
+      - same-origin
+      Content-Security-Policy:
+      - 'script-src ''self'' ''unsafe-inline'' ''unsafe-eval'' https://gist.github.com
+        https://apis.google.com https://api.amplitude.com https://widget.intercom.io
+        https://js.intercomcdn.com https://logs-01.loggly.com https://cdn.segment.com
+        https://analytics.pgncs.notion.so https://o324374.ingest.sentry.io https://checkout.stripe.com
+        https://js.stripe.com https://embed.typeform.com https://admin.typeform.com
+        https://public.profitwell.com js.sentry-cdn.com https://platform.twitter.com
+        https://cdn.syndication.twimg.com https://www.googletagmanager.com https://x.clearbitjs.com;
+        connect-src ''self'' https://msgstore.www.notion.so wss://msgstore.www.notion.so
+        ws://localhost:* https://notion-emojis.s3-us-west-2.amazonaws.com https://s3-us-west-2.amazonaws.com
+        https://s3.us-west-2.amazonaws.com https://notion-production-snapshots-2.s3.us-west-2.amazonaws.com
+        https: http: https://api.amplitude.com https://api.embed.ly https://js.intercomcdn.com
+        https://api-iam.intercom.io wss://nexus-websocket-a.intercom.io https://logs-01.loggly.com
+        https://api.segment.io https://api.pgncs.notion.so https://o324374.ingest.sentry.io
+        https://checkout.stripe.com https://js.stripe.com https://cdn.contentful.com
+        https://preview.contentful.com https://images.ctfassets.net https://www2.profitwell.com
+        https://api.unsplash.com https://boards-api.greenhouse.io; font-src ''self''
+        data: https://cdnjs.cloudflare.com https://js.intercomcdn.com; img-src ''self''
+        data: blob: https: https://platform.twitter.com https://syndication.twitter.com
+        https://pbs.twimg.com https://ton.twimg.com www.googletagmanager.com; style-src
+        ''self'' ''unsafe-inline'' https://cdnjs.cloudflare.com https://github.githubassets.com
+        https://platform.twitter.com https://ton.twimg.com; frame-src https: http:;
+        media-src https: http:'
+      X-Content-Security-Policy:
+      - 'script-src ''self'' ''unsafe-inline'' ''unsafe-eval'' https://gist.github.com
+        https://apis.google.com https://api.amplitude.com https://widget.intercom.io
+        https://js.intercomcdn.com https://logs-01.loggly.com https://cdn.segment.com
+        https://analytics.pgncs.notion.so https://o324374.ingest.sentry.io https://checkout.stripe.com
+        https://js.stripe.com https://embed.typeform.com https://admin.typeform.com
+        https://public.profitwell.com js.sentry-cdn.com https://platform.twitter.com
+        https://cdn.syndication.twimg.com https://www.googletagmanager.com https://x.clearbitjs.com;
+        connect-src ''self'' https://msgstore.www.notion.so wss://msgstore.www.notion.so
+        ws://localhost:* https://notion-emojis.s3-us-west-2.amazonaws.com https://s3-us-west-2.amazonaws.com
+        https://s3.us-west-2.amazonaws.com https://notion-production-snapshots-2.s3.us-west-2.amazonaws.com
+        https: http: https://api.amplitude.com https://api.embed.ly https://js.intercomcdn.com
+        https://api-iam.intercom.io wss://nexus-websocket-a.intercom.io https://logs-01.loggly.com
+        https://api.segment.io https://api.pgncs.notion.so https://o324374.ingest.sentry.io
+        https://checkout.stripe.com https://js.stripe.com https://cdn.contentful.com
+        https://preview.contentful.com https://images.ctfassets.net https://www2.profitwell.com
+        https://api.unsplash.com https://boards-api.greenhouse.io; font-src ''self''
+        data: https://cdnjs.cloudflare.com https://js.intercomcdn.com; img-src ''self''
+        data: blob: https: https://platform.twitter.com https://syndication.twitter.com
+        https://pbs.twimg.com https://ton.twimg.com www.googletagmanager.com; style-src
+        ''self'' ''unsafe-inline'' https://cdnjs.cloudflare.com https://github.githubassets.com
+        https://platform.twitter.com https://ton.twimg.com; frame-src https: http:;
+        media-src https: http:'
+      X-Webkit-Csp:
+      - 'script-src ''self'' ''unsafe-inline'' ''unsafe-eval'' https://gist.github.com
+        https://apis.google.com https://api.amplitude.com https://widget.intercom.io
+        https://js.intercomcdn.com https://logs-01.loggly.com https://cdn.segment.com
+        https://analytics.pgncs.notion.so https://o324374.ingest.sentry.io https://checkout.stripe.com
+        https://js.stripe.com https://embed.typeform.com https://admin.typeform.com
+        https://public.profitwell.com js.sentry-cdn.com https://platform.twitter.com
+        https://cdn.syndication.twimg.com https://www.googletagmanager.com https://x.clearbitjs.com;
+        connect-src ''self'' https://msgstore.www.notion.so wss://msgstore.www.notion.so
+        ws://localhost:* https://notion-emojis.s3-us-west-2.amazonaws.com https://s3-us-west-2.amazonaws.com
+        https://s3.us-west-2.amazonaws.com https://notion-production-snapshots-2.s3.us-west-2.amazonaws.com
+        https: http: https://api.amplitude.com https://api.embed.ly https://js.intercomcdn.com
+        https://api-iam.intercom.io wss://nexus-websocket-a.intercom.io https://logs-01.loggly.com
+        https://api.segment.io https://api.pgncs.notion.so https://o324374.ingest.sentry.io
+        https://checkout.stripe.com https://js.stripe.com https://cdn.contentful.com
+        https://preview.contentful.com https://images.ctfassets.net https://www2.profitwell.com
+        https://api.unsplash.com https://boards-api.greenhouse.io; font-src ''self''
+        data: https://cdnjs.cloudflare.com https://js.intercomcdn.com; img-src ''self''
+        data: blob: https: https://platform.twitter.com https://syndication.twitter.com
+        https://pbs.twimg.com https://ton.twimg.com www.googletagmanager.com; style-src
+        ''self'' ''unsafe-inline'' https://cdnjs.cloudflare.com https://github.githubassets.com
+        https://platform.twitter.com https://ton.twimg.com; frame-src https: http:;
+        media-src https: http:'
+      Set-Cookie:
+      - notion_browser_id=482f01a2-3974-4bb4-95ec-abb05bc7f9f7; Domain=www.notion.so;
+        Path=/; Expires=Wed, 12 Mar 2053 10:21:09 GMT; Secure
+      Etag:
+      - W/"cb7-rSg8RlMpKlpT69snHS/iTy0dlrg"
+      Vary:
+      - Accept-Encoding
+      Cf-Cache-Status:
+      - DYNAMIC
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 669703c2dc982f76-SIN
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","results":[{"object":"page","id":"c25c4426-1de5-4da5-ab05-a8b59d3c0b84","created_time":"2021-07-04T08:34:00.000Z","last_edited_time":"2021-07-04T08:34:00.000Z","parent":{"type":"database_id","database_id":"86d91ec4-9f5d-4c2a-85aa-f6e9ac49be07"},"archived":false,"properties":{"GCal
+        Event ID":{"id":"?uPt","type":"rich_text","rich_text":[]},"Date":{"id":"TF:W","type":"date","date":{"start":"2021-06-17","end":null}},"Name":{"id":"title","type":"title","title":[{"type":"text","text":{"content":"Notion
+        All Day Single Event","link":null},"annotations":{"bold":false,"italic":false,"strikethrough":false,"underline":false,"code":false,"color":"default"},"plain_text":"Notion
+        All Day Single Event","href":null}]}},"url":"https://www.notion.so/Notion-All-Day-Single-Event-c25c44261de54da5ab05a8b59d3c0b84"},{"object":"page","id":"96ccb88f-5e24-47e4-8dc1-99ef61c910d0","created_time":"2021-07-04T08:11:00.000Z","last_edited_time":"2021-07-04T08:34:00.000Z","parent":{"type":"database_id","database_id":"86d91ec4-9f5d-4c2a-85aa-f6e9ac49be07"},"archived":false,"properties":{"GCal
+        Event ID":{"id":"?uPt","type":"rich_text","rich_text":[]},"Date":{"id":"TF:W","type":"date","date":{"start":"2021-06-15","end":"2021-06-16"}},"Name":{"id":"title","type":"title","title":[{"type":"text","text":{"content":"Notion
+        All Day Event Range","link":null},"annotations":{"bold":false,"italic":false,"strikethrough":false,"underline":false,"code":false,"color":"default"},"plain_text":"Notion
+        All Day Event Range","href":null}]}},"url":"https://www.notion.so/Notion-All-Day-Event-Range-96ccb88f5e2447e48dc199ef61c910d0"},{"object":"page","id":"c73a8425-a74f-4a55-8d5b-cd6a3a09be9d","created_time":"2021-06-13T14:32:00.000Z","last_edited_time":"2021-06-19T10:12:00.000Z","parent":{"type":"database_id","database_id":"86d91ec4-9f5d-4c2a-85aa-f6e9ac49be07"},"archived":false,"properties":{"GCal
+        Event ID":{"id":"?uPt","type":"rich_text","rich_text":[]},"Date":{"id":"TF:W","type":"date","date":{"start":"2021-06-19T10:12:00.000+00:00","end":"2021-06-19T10:13:00.000+00:00"}},"Name":{"id":"title","type":"title","title":[{"type":"text","text":{"content":"Test
+        Google Event","link":null},"annotations":{"bold":false,"italic":false,"strikethrough":false,"underline":false,"code":false,"color":"default"},"plain_text":"Test
+        Google Event","href":null}]}},"url":"https://www.notion.so/Test-Google-Event-c73a8425a74f4a558d5bcd6a3a09be9d"},{"object":"page","id":"95053884-e084-454b-867d-c7fb1d987859","created_time":"2021-06-13T14:31:00.000Z","last_edited_time":"2021-06-19T10:10:00.000Z","parent":{"type":"database_id","database_id":"86d91ec4-9f5d-4c2a-85aa-f6e9ac49be07"},"archived":false,"properties":{"GCal
+        Event ID":{"id":"?uPt","type":"rich_text","rich_text":[]},"Date":{"id":"TF:W","type":"date","date":{"start":"2021-06-13T16:00:00.000+00:00","end":"2021-06-13T17:00:00.000+00:00"}},"Name":{"id":"title","type":"title","title":[{"type":"text","text":{"content":"Notion
+        Event","link":null},"annotations":{"bold":false,"italic":false,"strikethrough":false,"underline":false,"code":false,"color":"default"},"plain_text":"Notion
+        Event","href":null}]}},"url":"https://www.notion.so/Notion-Event-95053884e084454b867dc7fb1d987859"}],"next_cursor":null,"has_more":false}'
+  recorded_at: Sun, 04 Jul 2021 08:34:29 GMT
+recorded_with: VCR 6.0.0

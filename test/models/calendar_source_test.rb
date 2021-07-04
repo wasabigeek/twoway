@@ -1,6 +1,18 @@
 require "test_helper"
 
-class CalendarSourceCheckForNewEventsTest < ActiveSupport::TestCase
+class CalendarSourceCheckForNewEventsInNotionTest < ActiveSupport::TestCase
+  test "creates CalendarEvents" do
+    calendar_source = calendar_sources(:notion_cal_one)
+
+    assert_difference -> { CalendarEvent.count }, 4 do
+      VCR.use_cassette('clients/notion/list_events') do
+        calendar_source.check_for_new_events
+      end
+    end
+  end
+end
+
+class CalendarSourceCheckForNewEventsInGoogleTest < ActiveSupport::TestCase
   test "creates CalendarEvents for Google" do
     calendar_source = calendar_sources(:gcal_one)
 

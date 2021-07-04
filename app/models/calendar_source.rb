@@ -88,13 +88,6 @@ class CalendarSource < ApplicationRecord
   end
 
   def raw_events
-    # TODO: make clients have the same interface
-    if connection.notion?
-      connection.client.list_pages(external_id)
-    elsif connection.google?
-      connection.client.list_events(external_id)
-    else
-      []
-    end
+    connection.client.list_events(external_id)
   end
 end
