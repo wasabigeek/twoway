@@ -17,6 +17,7 @@ class CalendarEvent < ApplicationRecord
       name: raw_event.name,
       starts_at: raw_event.starts_at,
       ends_at: raw_event.ends_at,
+      all_day: raw_event.all_day,
       snapshot_at: raw_event.updated_at,
     )
   end

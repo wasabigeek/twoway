@@ -27,6 +27,10 @@ module Gcal
       calendar_service.list_events(calendar_id).items.map { |gcal_event| normalise_event(gcal_event) }
     end
 
+    # def list_recurring_event_instances(calendar_id, event_id, options = {})
+    #   calendar_service.list_event_instances(calendar_id, event_id, options)
+    # end
+
     def get_event(calendar_id, event_id)
       raw_event = calendar_service.get_event(
         calendar_id,
@@ -43,8 +47,9 @@ module Gcal
         external_id: raw_event.id,
         name: raw_event.summary,
         # TODO: handle all day (uses `date` instead https://developers.google.com/calendar/v3/reference/events#resource)
-        starts_at: raw_event.start.date_time&.iso8601(3),
-        ends_at: raw_event.end.date_time&.iso8601(3),
+        starts_at: raw_event.start.date_time&.iso8601(3) || raw_event.start.date.to_datetime,
+        ends_at: raw_event.end.date_time&.iso8601(3) || raw_event.end.date.to_datetime,
+        all_day: raw_event.start.date.present?,
         updated_at: raw_event.updated.iso8601(3)
       )
     end

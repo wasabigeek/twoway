@@ -13,7 +13,7 @@ class CalendarEventTakeSnapshotTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates a CalendarEventSnapshot with the right attributes" do
+  test "creates a CalendarEventSnapshot with the right attributes for Notion" do
     event = CalendarEvent.create!(
       calendar_source: calendar_sources(:notion_cal_one),
       external_id: '95053884-e084-454b-867d-c7fb1d987859'
@@ -29,7 +29,7 @@ class CalendarEventTakeSnapshotTest < ActiveSupport::TestCase
     assert snapshot.ends_at == Time.parse("2021-06-13T17:00:00.000+00:00")
   end
 
-  test "creates a CalendarEventSnapshot with the right attributes for Google Calendar" do
+  test "creates a CalendarEventSnapshot for a Google Calendar event" do
     event = CalendarEvent.create!(
       calendar_source: calendar_sources(:gcal_one),
       external_id: '46avomjj8qkagc38r7asgvqdn2_20210621'
@@ -43,5 +43,23 @@ class CalendarEventTakeSnapshotTest < ActiveSupport::TestCase
     assert snapshot.name == 'Test Recurring Exception 2'
     assert snapshot.starts_at == Time.parse("2021-06-21T02:00:00.000+00:00")
     assert snapshot.ends_at == Time.parse("2021-06-21T02:30:00.000+00:00")
+    assert snapshot.all_day == false
+  end
+
+  test "creates a CalendarEventSnapshot for a Google Calendar all-day recurring exception" do
+    event = CalendarEvent.create!(
+      calendar_source: calendar_sources(:gcal_one),
+      external_id: '46avomjj8qkagc38r7asgvqdn2_20210620'
+    )
+    VCR.use_cassette('clients/gcal/get_event_all_day_exception') do
+      event.take_snapshot
+    end
+
+    snapshot = event.calendar_event_snapshots.first
+    assert snapshot.external_id == '46avomjj8qkagc38r7asgvqdn2_20210620'
+    assert snapshot.name == 'Test Recurring Exception'
+    assert snapshot.starts_at == Time.parse("2021-06-20T00:00:00.000+00:00")
+    assert snapshot.ends_at == Time.parse("2021-06-21T00:00:00.000+00:00")
+    assert snapshot.all_day == true
   end
 end
