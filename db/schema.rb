@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_130619) do
+ActiveRecord::Schema.define(version: 2021_07_04_074641) do
 
   create_table "calendar_event_snapshots", force: :cascade do |t|
     t.string "name", null: false
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2021_06_12_130619) do
     t.integer "calendar_source_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "all_day", default: false, null: false
     t.index ["calendar_event_id"], name: "index_calendar_event_snapshots_on_calendar_event_id"
     t.index ["calendar_source_id"], name: "index_calendar_event_snapshots_on_calendar_source_id"
   end
