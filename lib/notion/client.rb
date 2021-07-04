@@ -121,12 +121,22 @@ module Notion
     end
 
     def normalise_event(notion_event)
+      starts_at = notion_event.dig('properties', 'Date', 'date', 'start')
+      ends_at = notion_event.dig('properties', 'Date', 'date', 'end')
+      all_day = false
+      if !DateTime._iso8601(starts_at).has_key?(:hour)
+        all_day = true
+        ends_at = ends_at.presence || (DateTime.parse(starts_at) + 1.day).iso8601(3)
+        starts_at = DateTime.parse(starts_at).iso8601(3)
+      end
+
       OpenStruct.new(
         external_id: notion_event['id'],
         name: notion_event.dig('properties', 'Name', 'title').first['plain_text'],
         # TODO: make this property configurable
-        starts_at: notion_event.dig('properties', 'Date', 'date', 'start'),
-        ends_at: notion_event.dig('properties', 'Date', 'date', 'end'),
+        starts_at: starts_at,
+        ends_at: ends_at,
+        all_day: all_day,
         updated_at: notion_event['last_edited_time']
       )
     end

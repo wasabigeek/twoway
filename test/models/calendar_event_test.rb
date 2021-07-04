@@ -29,6 +29,23 @@ class CalendarEventTakeSnapshotTest < ActiveSupport::TestCase
     assert snapshot.ends_at == Time.parse("2021-06-13T17:00:00.000+00:00")
   end
 
+  test "creates a CalendarEventSnapshot for a Notion all-day event" do
+    event = CalendarEvent.create!(
+      calendar_source: calendar_sources(:notion_cal_one),
+      external_id: 'c25c4426-1de5-4da5-ab05-a8b59d3c0b84'
+    )
+    VCR.use_cassette('clients/notion/get_event_all_day') do
+      event.take_snapshot
+    end
+
+    snapshot = event.calendar_event_snapshots.first
+    assert_equal(snapshot.external_id, 'c25c4426-1de5-4da5-ab05-a8b59d3c0b84')
+    assert_equal(snapshot.name, 'Notion All Day Single Event')
+    assert_equal(snapshot.starts_at, Time.parse("2021-06-17T00:00:00.000+00:00"))
+    assert_equal(snapshot.ends_at, Time.parse("2021-06-18T00:00:00.000+00:00"))
+    assert_equal(snapshot.all_day, true)
+  end
+
   test "creates a CalendarEventSnapshot for a Google Calendar event" do
     event = CalendarEvent.create!(
       calendar_source: calendar_sources(:gcal_one),
