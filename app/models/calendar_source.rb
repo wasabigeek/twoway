@@ -17,11 +17,7 @@ class CalendarSource < ApplicationRecord
   # @param [#name#starts_at#ends_at] snapshot
   #
   def push_new_event(synced_event, snapshot)
-    if connection.google?
-      external_event = create_gcal_event(snapshot)
-    else
-      external_event = client.create_event(external_id, snapshot)
-    end
+    external_event = client.create_event(external_id, snapshot)
     calendar_events.create!(synced_event: synced_event, external_id: external_event.external_id)
   end
 
@@ -47,25 +43,6 @@ class CalendarSource < ApplicationRecord
 
   def client
     connection.client
-  end
-
-  def create_gcal_event(event_data)
-    # TODO: shift this to the client
-    gcal_event = Google::Apis::CalendarV3::Event.new(
-      summary: event_data.name,
-      start: Google::Apis::CalendarV3::EventDateTime.new(
-        date_time: event_data.starts_at.iso8601,
-        time_zone: 'Etc/GMT'
-      ),
-      end: Google::Apis::CalendarV3::EventDateTime.new(
-        date_time: (event_data.ends_at || event_data.starts_at).iso8601,
-        time_zone: 'Etc/GMT'
-      )
-    )
-
-    Gcal::Client
-      .new(connection: connection)
-      .create_event(external_id, gcal_event)
   end
 
   def update_gcal_event(gcal_event_id, event_data)
