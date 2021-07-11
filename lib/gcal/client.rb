@@ -44,16 +44,28 @@ module Gcal
     private
 
     def transform_to_gcal_event(calendar_event_info)
-      Google::Apis::CalendarV3::Event.new(
-        summary: calendar_event_info.name,
-        start: Google::Apis::CalendarV3::EventDateTime.new(
+      if calendar_event_info.all_day
+        starts = Google::Apis::CalendarV3::EventDateTime.new(
+          date: calendar_event_info.starts_at.strftime('%Y-%m-%d')
+        )
+        ends = Google::Apis::CalendarV3::EventDateTime.new(
+          date: calendar_event_info.ends_at.strftime('%Y-%m-%d')
+        )
+      else
+        starts = Google::Apis::CalendarV3::EventDateTime.new(
           date_time: calendar_event_info.starts_at.iso8601,
           time_zone: 'Etc/GMT'
-        ),
-        end: Google::Apis::CalendarV3::EventDateTime.new(
+        )
+        ends = Google::Apis::CalendarV3::EventDateTime.new(
           date_time: (calendar_event_info.ends_at || calendar_event_info.starts_at).iso8601,
           time_zone: 'Etc/GMT'
         )
+      end
+
+      Google::Apis::CalendarV3::Event.new(
+        summary: calendar_event_info.name,
+        start: starts,
+        end: ends
       )
     end
 
