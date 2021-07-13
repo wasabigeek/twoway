@@ -110,7 +110,7 @@ module Notion
       all_day = false
       if !DateTime._iso8601(starts_at).has_key?(:hour)
         all_day = true
-        ends_at = ends_at.presence || (DateTime.parse(starts_at) + 1.day).iso8601(3)
+        ends_at = ends_at.presence || (DateTime.parse(starts_at) + 1.day).iso8601(3) # follow Google's convention
         starts_at = DateTime.parse(starts_at).iso8601(3)
       end
 
@@ -126,6 +126,24 @@ module Notion
     end
 
     def transform_to_notion_event(database_id, calendar_event_info)
+      date_hash = {
+        "Date" => {
+          "type" => "date"
+        }
+      }
+      if calendar_event_info.all_day
+        # TODO: timezone?
+        date_hash['Date']["date"] = {
+          "start" => calendar_event_info.starts_at.strftime('%Y-%m-%d'),
+          "end" => 1.day.before(calendar_event_info.ends_at).strftime('%Y-%m-%d')
+        }
+      else
+        date_hash['Date']["date"] = {
+          "start" => calendar_event_info.starts_at,
+          "end" => calendar_event_info.ends_at
+        }
+      end
+
       {
         'parent' => { 'database_id': database_id, 'type' => 'database_id' },
         'properties' => {
@@ -135,20 +153,13 @@ module Notion
               {
                 "type" => "text",
                 "text" => {
-                  "content" => event_data.name,
+                  "content" => calendar_event_info.name,
                   "link" => nil
                 }
               }
             ]
-          },
-        "Date" => {
-            "type" => "date",
-            "date" => {
-              "start" => event_data.starts_at,
-              "end" => event_data.ends_at
-            }
-          },
-        }
+          }
+        }.merge(date_hash)
       }
     end
   end

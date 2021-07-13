@@ -39,4 +39,25 @@ class SyncedEventSynchronizeTest < ActiveSupport::TestCase
       ["notion", "google_oauth2"]
     )
   end
+
+  test "syncs all-day event in Google with Notion" do
+    all_day_gcal_event = CalendarEvent.create!(
+      external_id: 'fgb7vl2mlbkugmg4eq0t62ke7s',
+      calendar_source: calendar_sources(:gcal_one)
+    )
+
+    synced_event = SyncedEvent.create!(
+      sync: syncs(:one),
+      calendar_events: [all_day_gcal_event]
+    )
+
+    VCR.use_cassette('synced_event/sync_all_day_gcal_event') do
+      synced_event.synchronize
+    end
+
+    assert_equal(
+      synced_event.calendar_events.reload.map { |e| e.calendar_source.connection.provider },
+      ["google_oauth2", "notion"]
+    )
+  end
 end
