@@ -20,13 +20,9 @@ module Notion
 
     def list_events(database_id)
       # TODO: pagination & filters
-      response = oauth_token.post(
+      response = post(
         "https://api.notion.com/v1/databases/#{database_id}/query",
-        body: {'page_size' => 100}.to_json,
-        headers: { # TODO: encapsulate this better
-          'Notion-Version' => '2021-05-13',
-          "Content-Type" => "application/json"
-        }
+        body: {'page_size' => 100}.to_json
       )
       response.parsed['results'].map { |obj| normalise_event(obj) }
     end
@@ -46,7 +42,7 @@ module Notion
     # @param [#name#starts_at#ends_at] event_data
     #
     def create_event(database_id, event_data)
-      response = oauth_token.post(
+      response = post(
         "https://api.notion.com/v1/pages/",
         body: {
           'parent' => { 'database_id': database_id, 'type' => 'database_id' },
@@ -71,8 +67,7 @@ module Notion
               }
             },
           }
-        }.to_json,
-        headers: { "Content-Type" => "application/json" }
+        }.to_json
       )
       normalise_event(response.parsed)
     end
@@ -112,6 +107,18 @@ module Notion
     end
 
     private
+
+    def post(url, **options)
+      additional_headers = options.delete(:headers) || {}
+      oauth_token.post(
+        url,
+        headers: {
+          'Notion-Version' => '2021-05-13',
+          "Content-Type" => "application/json"
+        }.merge(additional_headers),
+        **options
+      )
+    end
 
     def oauth_token
       @oauth_token ||= OAuth2::AccessToken.new(
