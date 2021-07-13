@@ -44,30 +44,7 @@ module Notion
     def create_event(database_id, event_data)
       response = post(
         "https://api.notion.com/v1/pages/",
-        body: {
-          'parent' => { 'database_id': database_id, 'type' => 'database_id' },
-          'properties' => {
-            "Name" => {
-              "type" => "title",
-              "title" => [
-                {
-                  "type" => "text",
-                  "text" => {
-                    "content" => event_data.name,
-                    "link" => nil
-                  }
-                }
-              ]
-            },
-          "Date" => {
-              "type" => "date",
-              "date" => {
-                "start" => event_data.starts_at,
-                "end" => event_data.ends_at
-              }
-            },
-          }
-        }.to_json
+        body: transform_to_notion_event(database_id, event_data).to_json
       )
       normalise_event(response.parsed)
     end
@@ -146,6 +123,33 @@ module Notion
         all_day: all_day,
         updated_at: notion_event['last_edited_time']
       )
+    end
+
+    def transform_to_notion_event(database_id, calendar_event_info)
+      {
+        'parent' => { 'database_id': database_id, 'type' => 'database_id' },
+        'properties' => {
+          "Name" => {
+            "type" => "title",
+            "title" => [
+              {
+                "type" => "text",
+                "text" => {
+                  "content" => event_data.name,
+                  "link" => nil
+                }
+              }
+            ]
+          },
+        "Date" => {
+            "type" => "date",
+            "date" => {
+              "start" => event_data.starts_at,
+              "end" => event_data.ends_at
+            }
+          },
+        }
+      }
     end
   end
 end
